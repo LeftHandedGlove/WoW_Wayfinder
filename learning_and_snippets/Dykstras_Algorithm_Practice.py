@@ -44,9 +44,8 @@ connections = {
 
 
 def dykstras_alg(all_nodes, start_node, end_node):
-    optimal_path = [start_node]
+    optimal_path = []
     finished_nodes = []
-    unfinished_nodes = all_nodes
     priority_queue = [start_node]
     for node in all_nodes:
         node.cost = 999999999
@@ -58,28 +57,23 @@ def dykstras_alg(all_nodes, start_node, end_node):
         for neighbor_node, path_weight in current_node.neighbors.items():
             if neighbor_node.cost > current_node.cost + path_weight:
                 neighbor_node.cost = current_node.cost + path_weight
+                neighbor_node.fastest_through_node = current_node
             if (neighbor_node not in finished_nodes) and (neighbor_node not in priority_queue):
                 priority_queue.append(neighbor_node)
         finished_nodes.append(current_node)
         priority_queue.sort(key=lambda x: x.cost, reverse=False)
-        print("------------- {} -------------".format(current_node.name))
-        for node in priority_queue:
-            print(node.name, node.cost)
-    print("==============================")
-    for node in all_nodes:
-        print(node.name, node.cost)
-    exit(0)
-
-'''
-    for node in all_nodes:
-        for neighbor_node, path_weight in node.neighbors.items():
-            print(neighbor_node, neighbor_node.name, path_weight)
-            if neighbor_node.cost > node.cost + path_weight:
-                neighbor_node.cost = node.cost + path_weight:
+    current_node = end_node
+    while True:
+        if current_node is not start_node:
+            optimal_path.append(current_node)
+            current_node = current_node.fastest_through_node
+        else:
+            optimal_path.append(start_node)
+            break
+    optimal_path.reverse()
     return optimal_path
-    '''
 
 
 setup()
-dykstras_alg(all_nodes=all_nodes, start_node=all_nodes[0], end_node=all_nodes[5])
+print(dykstras_alg(all_nodes=all_nodes, start_node=all_nodes[0], end_node=all_nodes[5]))
 
