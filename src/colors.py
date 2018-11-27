@@ -1,1 +1,3 @@
-PATH_COLOR_BGR = [253, 0, 234]
+import numpy as np
+
+PATH_COLOR_BGR = np.array([255, 0, 255])
