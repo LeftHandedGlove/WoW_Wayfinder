@@ -1,7 +1,8 @@
 import cv2
-import mss
-from matplotlib import pyplot as plt
+# import mss
+# from matplotlib import pyplot as plt
 import numpy as np
+
 
 def get_abs_point_from_percent(image, percent_x, percent_y):
     abs_height, abs_width = image.shape
@@ -9,8 +10,9 @@ def get_abs_point_from_percent(image, percent_x, percent_y):
     point_y = int((abs_height * percent_y) / 100)
     return [point_x, point_y]
 
+
 # Get the raw image and make it smaller
-raw_img = cv2.imread(r"..\images\test\dun_morogh_third_person_near.png")
+raw_img = cv2.imread(r"..\images\test\dun_morogh_third_person_far.png")
 raw_img = cv2.resize(raw_img, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_AREA)
 
 # Convert it to greyscale
@@ -25,10 +27,10 @@ cdf = np.ma.filled(cdf_m, 0).astype("uint8")
 grey_img2 = cdf[grey_img]
 
 # Try thresholding the image with the average of the road
-left = get_abs_point_from_percent(grey_img2, 30, 40)[0]
-top = get_abs_point_from_percent(grey_img2, 30, 40)[1]
-right = get_abs_point_from_percent(grey_img2, 70, 100)[0]
-bottom = get_abs_point_from_percent(grey_img2, 70, 100)[1]
+left = get_abs_point_from_percent(grey_img2, 40, 40)[0]
+top = get_abs_point_from_percent(grey_img2, 40, 40)[1]
+right = get_abs_point_from_percent(grey_img2, 60, 100)[0]
+bottom = get_abs_point_from_percent(grey_img2, 60, 100)[1]
 smaller_img = grey_img2[top:bottom, left:right]
 avg_color_per_row = np.average(smaller_img, axis=0)
 avg_color = np.average(avg_color_per_row, axis=0)
@@ -79,10 +81,10 @@ blur = cv2.GaussianBlur(closed_path, (kernel_size, kernel_size), 0)
 # Redo the threshold
 _, thresh_2_img = cv2.threshold(blur, 127, 255, cv2.THRESH_BINARY)
 
-points = np.array([get_abs_point_from_percent(grey_img2, 0, 75),
+points = np.array([get_abs_point_from_percent(grey_img2, 25, 75),
                    get_abs_point_from_percent(grey_img2, 25, 25),
                    get_abs_point_from_percent(grey_img2, 75, 25),
-                   get_abs_point_from_percent(grey_img2, 100, 75)],
+                   get_abs_point_from_percent(grey_img2, 75, 75)],
                   np.int32)
 mask = np.zeros_like(thresh_2_img)
 cv2.fillPoly(mask, [points], 255)
