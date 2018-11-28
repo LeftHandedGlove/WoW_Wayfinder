@@ -42,6 +42,10 @@ def is_player_on_path():
 
 # TODO
 def get_player_coords():
+    # Get an image of the map
+    get_zone_map_from_game_image()
+    # find the player arrow
+    
     player_x = 50.0
     player_y = 50.0
     return player_x, player_y

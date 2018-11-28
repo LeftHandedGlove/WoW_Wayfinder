@@ -26,3 +26,9 @@ def average_color_of_image_grey(image):
     average_color = np.average(average_color_per_row, axis=0)
     average_color = int(round(average_color))
     return average_color
+
+
+# TODO
+def capture_game_frame():
+    game_frame = None
+    return game_frame
