@@ -7,9 +7,13 @@ import ImageUtils
 
 # TODO
 def get_zone_map_from_game_image():
-    zone_image = cv2.imread(CommonUtils.top_dir + os.sep + "images" + os.sep + "Raw_Zones" +
-                            os.sep + "Dun_Morogh_Raw.png")
-    return zone_image
+    game_frame = get_map_game_frame()
+    top = 97
+    bottom = 1035
+    left = 254
+    right = 1662
+    map_img = game_frame[top:bottom, left:right]
+    return map_img
 
 
 def get_zone_path_map(zone):

@@ -1,13 +1,16 @@
 import cv2
 
 # With an image of the game where the map is open, get the map
-game_frame = cv2.imread(r"..\images\test\open_map.png")
+game_frame = cv2.imread(r"..\images\test\no_arrow.png")
 
-# Potentially find the corners of the map with know images (need to test)
-top = 0
-bottom = 0
-left = 0
-right = 0
+top = 97
+bottom = 1035
+left = 254
+right = 1662
 
 map_img = game_frame[top:bottom, left:right]
-cv2.imshow(map_img)
+cv2.imwrite(r"..\images\test\no_arrow.png", map_img)
+cv2.imshow("map", map_img)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
