@@ -1,0 +1,47 @@
+Fastest Path: Way-Point System -OR- Safe Area Mapping:
+    Way-Point System:
+        Pros:
+            Quick computation time
+            Easy to get from point to point
+        Cons:
+            Fixed destinations
+            Doesnt scale well, more way points that must be connected.
+            Very bot like unless there are macros for how to get between way points
+            Difficult to setup
+    Safe Area Mapping:
+        Pros:
+            Easy to setup
+            Any destination
+            Easy changed
+            Can add random movement
+        Cons:
+            Long computation time
+            Difficult to calculate point to point
+            Cannot handle moving between zones easily
+            Due to every pixel being a 'node', the angle of travel is very difficult to make human like
+                because it wants to go from node to node, the angle cannot be smaller than 45 degrees
+    Decision:
+        Need a combo of the two because the safe area mapping cannot handle moving between zones.
+        Zone maps will be safe paths because they provide the most flexibility and are easy to update.
+        Zone gates will be way points so that flight paths, the tram, and zeppelins can be handled.
+    Notes:
+        Dun Morogh is a decent starting place due to the city gate, two gates that lead to the same zone,
+        and an instance gate.
+
+Player Facing Direction: Machine Learning -OR- Computer Vision
+    Machine Learning:
+        Pros:
+            Can be very accurate, Id guess +- 5 degrees
+            Handles different backgrounds well
+            Potentially quick computation time
+            Can always improve with more data
+        Cons:
+            Low resolution but can be improved with more data and outputs
+            Tedious data entry
+    Computer Vision:
+        Pros:
+            Very little setup
+        Cons:
+            Potentially long computation time
+            Doesn't handle different color backgrounds well
+            Accurate to +- 15 degrees
