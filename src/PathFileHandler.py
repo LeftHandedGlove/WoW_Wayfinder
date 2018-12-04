@@ -4,7 +4,7 @@ import json
 class PathFileHandler:
     top_dir = os.getcwd()
     top_dir = top_dir[:top_dir.find("WoW_Wayfinder")+len("WoW_Wayfinder")+1]
-    path_files_dir = top_dir + "path_files" + os.sep
+    path_files_dir = top_dir + "zone_path_files" + os.sep
 
     def __init__(self):
         self.all_nodes = list()
@@ -12,9 +12,9 @@ class PathFileHandler:
 
     def load_all_nodes(self):
 
-        all_path_files = os.listdir(PathFileHandler.top_dir + "path_files" + os.sep)
+        all_path_files = os.listdir(PathFileHandler.top_dir + "zone_path_files" + os.sep)
         print(all_path_files)
-        with open(PathFileHandler.path_files_dir + "Dun_Morogh.json") as json_file:
+        with open(PathFileHandler.path_files_dir + "Dun_Morogh_POI_SZ_Colors.json") as json_file:
             dun_morogh_dict = json.load(json_file)
         print(dun_morogh_dict["subzones"])
 

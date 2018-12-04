@@ -1,0 +1,11 @@
+{
+  "Zone": "Dun Morogh",
+  "Points_Of_Interest":{
+    "Gates of Ironforge": "RED",
+    "Gnomeregan": "GREEN",
+    "North_Gate_TODO": "YELLOW",
+    "South_Gate_TODO": "BLUE",
+    "Coldridge Valley": "PINK"
+  }
+}
+

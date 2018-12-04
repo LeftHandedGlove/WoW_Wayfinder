@@ -16,8 +16,8 @@ node_types_and_colors = {
 not_node_color = np.array([255, 255, 255])
 
 # Load the image
-# safe_area_img = cv2.imread(r"..\images\Zone_Path_Maps\Dun_Morogh_Path_Map.png")
-safe_area_img = cv2.imread(r"..\images\test\simple_safe_map.png")
+safe_area_img = cv2.imread(r"..\images\Zone_Path_Maps\Dun_Morogh_Path_Map.png")
+# safe_area_img = cv2.imread(r"..\images\test\simple_safe_map.png")
 
 
 class Node:
@@ -132,21 +132,33 @@ def dykstras_alg(all_nodes, start_node, end_area_node_type):
 
 def add_optimal_path_to_img(img, optimal_path):
     marked_img = img.copy()
-    for node in optimal_path:
-        x, y = node.coords
-        marked_img[y, x] = [126, 0, 255]
+    for idx, node in enumerate(optimal_path):
+        try:
+            start_x, start_y = node.coords
+            end_x, end_y = optimal_path[idx+1].coords
+            cv2.line(marked_img, (start_x, start_y), (end_x, end_y), (126, 0, 255), 1)
+        except:
+            pass
     return marked_img
 
 
 def cleanup_optimal_path(img, optimal_path):
-    cleaned_optimal_path = optimal_path
-    print(optimal_path[0].node_type)
+    cleaned_optimal_path = [optimal_path[0]]
     for node_num, node in enumerate(optimal_path):
+        if node not in optimal_path:
+            continue
         for next_node_num, next_node in enumerate(optimal_path[node_num+1:]):
+            if next_node == optimal_path[-1]:
+                cleaned_optimal_path.append(next_node)
+                break
             # if next node in los then continue
             if node_in_los(img=img, start_node=node, end_node=next_node):
-                # TODO
-                pass
+                prev_node = next_node
+                optimal_path.remove(next_node)
+            else:
+                cleaned_optimal_path.append(prev_node)
+                cleaned_optimal_path.append(next_node)
+                break
             # when it leaves, get the previous node
     return cleaned_optimal_path
 
@@ -154,18 +166,14 @@ def cleanup_optimal_path(img, optimal_path):
 def node_in_los(img, start_node, end_node):
     not_white_mask = cv2.inRange(img, not_node_color, not_node_color)
     not_white_mask = cv2.bitwise_not(not_white_mask)
-    img_copy = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    cv2.line(img_copy, start_node.coords, end_node.coords, (255, 0, 0), 1)
-    img_copy = cv2.bitwise_or(not_white_mask, img_copy)
-    cv2.imshow("or img", img_copy)
-    cv2.waitKey(100)
-    diff_img = cv2.bitwise_xor(not_white_mask, img_copy)
-    print(cv2.countNonZero(diff_img))
+    not_white_mask_copy = not_white_mask.copy()
+    cv2.line(not_white_mask_copy, start_node.coords, end_node.coords, 255, 1)
+    bitwise_or_img = cv2.bitwise_or(not_white_mask, not_white_mask_copy)
+    diff_img = cv2.bitwise_xor(not_white_mask, bitwise_or_img)
     if cv2.countNonZero(diff_img) > 0:
         return False
-    cv2.imshow("img_copy", img_copy)
-    cv2.imshow("not_white_mask", not_white_mask)
-
+    else:
+        return True
 
 
 if __name__ == '__main__':
@@ -177,9 +185,9 @@ if __name__ == '__main__':
     start_node = find_center_of_start_area(img=safe_area_img, start_area_node_type="start")
     print("Finding start node: {a}".format(a=time.time() - start_time))
     optimal_path = dykstras_alg(all_nodes=all_nodes, start_node=start_node, end_area_node_type="end")
-    print(len(optimal_path))
+    print("Original Optimal Path: {a}".format(a=len(optimal_path)))
     optimal_path = cleanup_optimal_path(img=safe_area_img, optimal_path=optimal_path)
-    print(len(optimal_path))
+    print("Cleaned Optimal Path: {a}".format(a=len(optimal_path)))
     print("Optimal path time: {a}".format(a=time.time() - start_time))
     marked_img = add_optimal_path_to_img(img=safe_area_img, optimal_path=optimal_path)
     print("Total time: {a}".format(a=time.time()-start_time))

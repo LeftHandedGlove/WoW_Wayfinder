@@ -45,3 +45,28 @@ Player Facing Direction: Machine Learning -OR- Computer Vision
             Potentially long computation time
             Doesn't handle different color backgrounds well
             Accurate to +- 15 degrees
+
+Player Coordinates: Minimap difference -OR- World Map location -OR- Coords addon with text recognition
+    Minimap Difference:
+        Pros:
+            Doesn't require the world map to be opened
+        Cons:
+            No feedback unless the whole map is mapped
+            Very difficult
+    World Map Location:
+        Pros:
+            Absolute accuracy
+        Cons:
+            Have to open the world map every time
+    Coords addon with text recognition:
+        Pros:
+            Dont have to open the world map if they are on the screen somewhere
+            Absolutely accurate
+            Learn text recognition
+        Cons:
+            Must install an addon (oh, noes)
+
+Custom Addon: Player direction and coords
+    I'm thinking this will make this a thousand times easier because I wont have to use clever
+    tactics in order to get those and its un-intrusive.
+    Coords, Direction, Velocity, Level, Zone
